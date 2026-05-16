@@ -1,0 +1,53 @@
+特殊文章记录
+
+特殊 svg 内嵌图片格式
+https://mp.weixin.qq.com/s/XFyIF-gQCz8xIkXq2XXIVQ
+
+svg 文件
+https://mp.weixin.qq.com/s/LL5agiU0exliA56QcJQFug
+
+合集
+https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5OTc1NzY5MQ==&action=getalbum&album_id=3346885180573073409&scene=126&sessionid=-134465745&uin=&key=&devicetype=Windows+11+x64&version=63090a1b&lang=zh_CN&ascene=0
+
+音频特殊情况 section 节点中包含字符串 和 mpvoice
+https://mp.weixin.qq.com/s?__biz=MzAwNzE4NzAyMw==&mid=2247483723&idx=1&sn=64e2e6b6ecc52b1bf59485ed9a3f6aae&chksm=9b00be6bac77377dc0c6e6716d8ffb02bc6014a0195a67a160deb3f86a1c6dda52a564da0088&scene=178&cur_album_id=2541837701759664128#rd
+
+webp 格式图片
+https://mp.weixin.qq.com/s/_eeCF9JLOKF-YeojxsTmog
+
+视频号
+https://mp.weixin.qq.com/s/fE8W2m4e0-XnAxFnEZEBOg
+
+# 图片集
+https://mp.weixin.qq.com/s/2E5aiMre-NO0Vw9rnGTkCQ
+https://mp.weixin.qq.com/s?__biz=MzkzMzcyOTMxNQ==&mid=2247484989&idx=1&sn=5820754d493809dc9033269d0d7e9744&chksm=c2494371f53eca6711d7341db7e01d0a40506cefe20e49294da5e3f8de52be1f7f8c67ff5157&scene=178&cur_album_id=3550586068847083524#rd
+https://mp.weixin.qq.com/s/dH-02T9oBoE9w3r550HqFg (新图片集，无法转换问题)
+
+
+# 不满足分页合集
+https://mp.weixin.qq.com/mp/appmsgalbum?__biz=Mzg2MjU4MTExNw==&action=getalbum&album_id=2905030758938165252&scene=173&subscene=&sessionid=undefined&enterid=0&from_msgid=2247483911&from_itemidx=1&count=3&nolastread=1#wechat_redirect
+
+# 首页无tab合集
+https://mp.weixin.qq.com/mp/homepage?__biz=MzAxMjczNTAwMA==&hid=5&sn=1f5e546d56ee64507c8e338a6c50d0c5&scene=18#wechat_redirect
+
+# 标签合集 无公众号名称
+https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NzQ4OTkwNg==&action=getalbum&album_id=2083590946545270785&scene=21#wechat_redirect
+
+# 视频合集
+https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MjM5NzQ4OTkwNg==&action=getalbum&album_id=2083590946545270785&scene=21#wechat_redirect
+
+# 标签合集 只能下载前 10 页问题
+https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzAxMjM4MTEwNg==&action=getalbum&album_id=1737297242459275265#wechat_redirect
+
+# 缺少一页
+https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU2Mzk1NzkwOA==&action=getalbum&album_id=1539823928771198977&scene=126&sessionid=2138235055#wechat_redirect
+
+# 视频地址解析导致运行中断问题
+https://mp.weixin.qq.com/s/bp2neIgzOmukT6Lial22Kg
+https://mp.weixin.qq.com/s/E4h4HU6TOaaIc-ay5rXRHg
+
+# 标签合集 下载异常列表取值 data-url 而非 data-link
+https://mp.weixin.qq.com/mp/appmsgalbum?__biz=MzU2NzMzNjMwNA==&action=getalbum&album_id=1831361470190632960&scene=173#wechat_redirect
+
+# 背景图片样式分隔错误，导致图片下载异常 &amp; & 问题
+https://mp.weixin.qq.com/s?__biz=MzUxNTYzMjA5Mg==&mid=2247523683&idx=1&sn=6f5195966dac50415b03231ac13e99dc&chksm=f9b163d0cec6eac6528e36c393a69619

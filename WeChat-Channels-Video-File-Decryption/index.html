@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- SEO 优化 -->
+    <title>微信视频号解密工具 - 在线解密 WeChat Channels Video | Isaac64 WASM</title>
+    <meta name="description" content="免费在线微信视频号视频解密工具，基于 Isaac64 PRNG 算法和官方 WASM 模块，支持浏览器内一键解密，无需上传，保护隐私。WeChat Channels Video Decryption Tool.">
+    <meta name="keywords" content="微信视频号,视频解密,WeChat Channels,Isaac64,WASM,在线解密工具,视频号下载,微信视频解密">
+    <meta name="author" content="Evil0ctal">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://evil0ctal.github.io/WeChat-Channels-Video-File-Decryption/">
+    <meta property="og:title" content="微信视频号解密工具 - 在线解密 WeChat Channels Video">
+    <meta property="og:description" content="免费在线微信视频号视频解密工具，基于 Isaac64 算法，支持浏览器内一键解密，保护隐私安全">
+    <meta property="og:image" content="https://evil0ctal.github.io/WeChat-Channels-Video-File-Decryption/preview.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://evil0ctal.github.io/WeChat-Channels-Video-File-Decryption/">
+    <meta property="twitter:title" content="微信视频号解密工具">
+    <meta property="twitter:description" content="免费在线微信视频号视频解密工具">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://evil0ctal.github.io/WeChat-Channels-Video-File-Decryption/">
+
+    <!-- 结构化数据 (Schema.org) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "微信视频号解密工具",
+      "applicationCategory": "MultimediaApplication",
+      "operatingSystem": "Web Browser",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CNY"
+      },
+      "author": {
+        "@type": "Person",
+        "name": "Evil0ctal",
+        "url": "https://github.com/Evil0ctal"
+      },
+      "description": "基于 Isaac64 PRNG 算法的微信视频号加密视频在线解密工具",
+      "softwareVersion": "2.0",
+      "datePublished": "2025-01-15"
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #667eea;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .input-group input[type="text"],
+        .input-group input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input[type="text"] {
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .file-upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .file-upload-area:hover {
+            background: #e9ecef;
+            border-color: #764ba2;
+        }
+
+        .file-upload-area.drag-over {
+            background: #667eea;
+            color: white;
+        }
+
+        .file-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e7f3ff;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #0066cc;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-container {
+            display: none;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 30px;
+            background: #e0e0e0;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            transition: width 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .progress-text {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+
+        #output {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 20px;
+            min-height: 200px;
+            max-height: 600px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        #output:empty::before {
+            content: '等待操作...';
+            color: #999;
+            font-style: italic;
+        }
+
+        .success {
+            color: #28a745;
+            font-weight: 600;
+        }
+
+        .error {
+            color: #dc3545;
+            font-weight: 600;
+        }
+
+        .info {
+            color: #0066cc;
+        }
+
+        .warning {
+            color: #ff9800;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid #e0e0e0;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 15px;
+            color: #666;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            color: #667eea;
+        }
+
+        .tab.active {
+            color: #667eea;
+            border-bottom-color: #667eea;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tech-details {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .tech-details h3 {
+            font-size: 16px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .tech-details ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .tech-details li {
+            margin: 5px 0;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .tech-details code {
+            background: #e9ecef;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+        }
+
+        .sponsor {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .sponsor h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .sponsor p {
+            font-size: 14px;
+            margin: 8px 0;
+            opacity: 0.95;
+        }
+
+        .sponsor a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            transition: border-color 0.3s;
+        }
+
+        .sponsor a:hover {
+            border-bottom-color: white;
+        }
+
+        .author-info {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .author-info .avatar {
+            font-size: 40px;
+        }
+
+        .author-info .details h4 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .author-info .details p {
+            font-size: 13px;
+            color: #666;
+            margin: 3px 0;
+        }
+
+        .author-info .details a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .author-info .details a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            background: #f8f9fa;
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            border-top: 1px solid #dee2e6;
+        }
+
+        .footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* API 服务推广样式 */
+        .api-service-promo {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            padding: 30px;
+            color: white;
+            margin-top: 20px;
+        }
+
+        .api-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .api-header h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        .api-header p {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .api-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .api-feature-item {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            transition: all 0.3s;
+        }
+
+        .api-feature-item:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            flex-shrink: 0;
+        }
+
+        .feature-content h4 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: white;
+        }
+
+        .feature-content p {
+            font-size: 13px;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        .docker-deploy {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .docker-deploy h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .docker-deploy .code-block {
+            background: rgba(0, 0, 0, 0.3);
+            color: #00ff88;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            white-space: pre;
+        }
+
+        .deploy-hint {
+            font-size: 13px;
+            opacity: 0.9;
+            margin: 0;
+        }
+
+        .deploy-hint code {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', monospace;
+        }
+
+        .api-endpoints {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .api-endpoints h4 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .endpoint-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .endpoint-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 12px;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .method-get {
+            background: #28a745;
+            color: white;
+        }
+
+        .method-post {
+            background: #ff9800;
+            color: white;
+        }
+
+        .endpoint-item .path {
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .endpoint-item .desc {
+            opacity: 0.9;
+            font-size: 13px;
+        }
+
+        .api-links {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .api-link {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.3s;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .api-link:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .tabs {
+                flex-wrap: wrap;
+            }
+
+            .tab {
+                flex: 1 1 50%;
+                min-width: 120px;
+            }
+
+            /* API 服务推广移动端样式 */
+            .api-service-promo {
+                padding: 20px;
+            }
+
+            .api-header h3 {
+                font-size: 20px;
+            }
+
+            .api-features {
+                grid-template-columns: 1fr;
+            }
+
+            .api-links {
+                flex-direction: column;
+            }
+
+            .api-link {
+                width: 100%;
+                text-align: center;
+            }
+
+            .docker-deploy .code-block {
+                font-size: 11px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🔐 微信视频号解密工具</h1>
+            <p>基于 Isaac64 WASM 的在线解密工具 - 完全浏览器内处理，保护隐私</p>
+        </header>
+
+        <main class="content">
+            <!-- 标签页 -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('decrypt')">
+                    🎬 一键解密
+                </button>
+                <button class="tab" onclick="switchTab('keystream')">
+                    🔑 仅生成密钥流
+                </button>
+            </div>
+
+            <!-- 一键解密标签页 -->
+            <div id="decrypt-tab" class="tab-content active">
+                <div class="section">
+                    <h2>步骤 1：输入解密密钥</h2>
+                    <div class="input-group">
+                        <label for="decodeKeyFull">Decode Key（从 API 响应中获取）</label>
+                        <input
+                            type="text"
+                            id="decodeKeyFull"
+                            placeholder="例如：2136343393"
+                            value=""
+                        >
+                        <div style="margin-top: 8px; padding: 10px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px; font-size: 13px; color: #856404;">
+                            <strong>⚠️ 重要提示：</strong> 微信接口每次请求都会返回新的加密文件链接和 decode_key，即使是同一个视频。请确保使用的 decode_key 与下载的加密视频文件是同一次 API 响应中获取的，否则解密将会失败。
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>步骤 2：选择加密视频</h2>
+                    <div class="file-upload-area" id="dropArea" onclick="document.getElementById('videoInput').click()">
+                        <div style="font-size: 48px; margin-bottom: 10px;">📹</div>
+                        <div style="font-size: 16px; font-weight: 500; margin-bottom: 5px;">
+                            点击选择或拖放加密视频文件
+                        </div>
+                        <div style="font-size: 13px; color: #666;">
+                            支持 .mp4 格式，文件不会上传到服务器
+                        </div>
+                    </div>
+                    <input
+                        type="file"
+                        id="videoInput"
+                        accept="video/*"
+                        style="display: none;"
+                        onchange="handleFileSelect(event)"
+                    >
+                    <div id="fileInfo" class="file-info" style="display: none;"></div>
+                </div>
+
+                <div class="section">
+                    <h2>步骤 3：开始解密</h2>
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="decryptVideo()" id="decryptBtn" disabled>
+                            <span>🚀</span>
+                            <span>开始解密</span>
+                        </button>
+                        <button class="btn-success" onclick="downloadDecrypted()" id="downloadBtn" disabled>
+                            <span>💾</span>
+                            <span>下载解密视频</span>
+                        </button>
+                        <button class="btn-secondary" onclick="clearAll()">
+                            <span>🗑️</span>
+                            <span>清空重置</span>
+                        </button>
+                    </div>
+
+                    <!-- 进度条 -->
+                    <div id="progressContainer" class="progress-container">
+                        <div class="progress-bar">
+                            <div id="progressFill" class="progress-fill" style="width: 0%">0%</div>
+                        </div>
+                        <div id="progressText" class="progress-text">准备中...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 仅生成密钥流标签页 -->
+            <div id="keystream-tab" class="tab-content">
+                <div class="section">
+                    <h2>生成密钥流文件</h2>
+                    <div class="input-group">
+                        <label for="decodeKey">Decode Key（解密密钥）</label>
+                        <input
+                            type="text"
+                            id="decodeKey"
+                            placeholder="请输入从 API 响应中获取的 decode_key"
+                            value=""
+                        >
+                        <div style="margin-top: 8px; padding: 10px; background: #fff3cd; border-left: 4px solid #ffc107; border-radius: 4px; font-size: 13px; color: #856404;">
+                            <strong>⚠️ 重要提示：</strong> 微信接口每次请求都会返回新的加密文件链接和 decode_key，即使是同一个视频。请确保使用的 decode_key 与下载的加密视频文件是同一次 API 响应中获取的，否则解密将会失败。
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn-primary" onclick="generateKeystream()">
+                            <span>🚀</span>
+                            <span>生成密钥流</span>
+                        </button>
+                        <button class="btn-success" onclick="exportKeystream()" id="exportBtn" disabled>
+                            <span>💾</span>
+                            <span>导出密钥流</span>
+                        </button>
+                        <button class="btn-secondary" onclick="clearOutput()">
+                            <span>🗑️</span>
+                            <span>清空日志</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作日志 -->
+            <div class="section">
+                <h2>操作日志</h2>
+                <div id="output"></div>
+            </div>
+
+            <!-- 技术细节 -->
+            <div class="section">
+                <div class="tech-details">
+                    <h3>🔧 技术细节</h3>
+                    <ul>
+                        <li><strong>加密算法</strong>：Isaac64 PRNG（密码学安全的伪随机数生成器）</li>
+                        <li><strong>实现方式</strong>：使用微信官方 WASM 模块（<code>wasm_video_decode.wasm</code>）</li>
+                        <li><strong>加密范围</strong>：仅加密视频前 131,072 bytes（128 KB）</li>
+                        <li><strong>解密方式</strong>：XOR 运算（<code>decrypted = encrypted ^ keystream</code>）</li>
+                        <li><strong>关键步骤</strong>：密钥流必须经过 <code>reverse()</code> 操作</li>
+                        <li><strong>隐私保护</strong>：所有操作在浏览器本地完成，不上传任何数据</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- API 服务推广 -->
+            <div class="section">
+                <div class="api-service-promo">
+                    <div class="api-header">
+                        <h3>🚀 支持 API 服务调用</h3>
+                        <p>批量处理、自动化解密、服务器端部署 - 满足您的专业需求</p>
+                    </div>
+
+                    <div class="api-features">
+                        <div class="api-feature-item">
+                            <div class="feature-icon">⚡</div>
+                            <div class="feature-content">
+                                <h4>高性能 API</h4>
+                                <p>基于 Playwright + WASM，完美兼容微信官方加密算法</p>
+                            </div>
+                        </div>
+                        <div class="api-feature-item">
+                            <div class="feature-icon">🐳</div>
+                            <div class="feature-content">
+                                <h4>Docker 一键部署</h4>
+                                <p>开箱即用，支持 ARM64/AMD64 多架构</p>
+                            </div>
+                        </div>
+                        <div class="api-feature-item">
+                            <div class="feature-icon">📡</div>
+                            <div class="feature-content">
+                                <h4>RESTful API</h4>
+                                <p>简洁易用的 HTTP 接口，支持批量解密和密钥流生成</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="docker-deploy">
+                        <h4>🐳 一键部署（使用 Docker Hub 镜像）</h4>
+                        <div class="code-block">docker run -d --name wechat-decrypt-api -p 3000:3000 evil0ctal/wechat-decrypt-api:latest</div>
+                        <p class="deploy-hint">💡 访问 <code>http://localhost:3000</code> 查看 API 文档和服务状态</p>
+                    </div>
+
+                    <div class="api-endpoints">
+                        <h4>📚 API 端点</h4>
+                        <div class="endpoint-list">
+                            <div class="endpoint-item">
+                                <span class="method method-get">GET</span>
+                                <span class="path">/health</span>
+                                <span class="desc">健康检查</span>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method method-post">POST</span>
+                                <span class="path">/api/keystream</span>
+                                <span class="desc">生成密钥流</span>
+                            </div>
+                            <div class="endpoint-item">
+                                <span class="method method-post">POST</span>
+                                <span class="path">/api/decrypt</span>
+                                <span class="desc">完整视频解密</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="api-links">
+                        <a href="https://github.com/Evil0ctal/WeChat-Channels-Video-File-Decryption/tree/main/api-service" target="_blank" class="api-link">
+                            📖 查看 API 文档
+                        </a>
+                        <a href="https://hub.docker.com/r/evil0ctal/wechat-decrypt-api" target="_blank" class="api-link">
+                            🐳 Docker Hub
+                        </a>
+                        <a href="https://github.com/Evil0ctal/WeChat-Channels-Video-File-Decryption" target="_blank" class="api-link">
+                            ⭐ GitHub 仓库
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 赞助商 -->
+            <div class="section">
+                <div class="sponsor">
+                    <h3>🚀 项目赞助方</h3>
+                    <p>本项目由 <a href="https://tikhub.io" target="_blank" rel="noopener">TikHub.io</a> 赞助支持</p>
+                    <p>TikHub - 专业的社交媒体数据 API 服务平台</p>
+                    <p>支持抖音、快手、小红书、微信公众号、微信视频号、TikTok、Instagram、YouTube 等多平台数据获取与分析</p>
+                </div>
+            </div>
+
+            <!-- 作者信息 -->
+            <div class="section">
+                <div class="author-info">
+                    <div class="avatar">👨‍💻</div>
+                    <div class="details">
+                        <h4>作者：Evil0ctal</h4>
+                        <p>GitHub: <a href="https://github.com/Evil0ctal" target="_blank" rel="noopener">@Evil0ctal</a></p>
+                        <p>项目地址: <a href="https://github.com/Evil0ctal/WeChat-Channels-Video-File-Decryption" target="_blank" rel="noopener">WeChat-Channels-Video-File-Decryption</a></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>
+                开源项目 ·
+                <a href="https://github.com/Evil0ctal/WeChat-Channels-Video-File-Decryption" target="_blank" rel="noopener">GitHub</a> ·
+                仅供学习研究使用
+            </p>
+            <p style="margin-top: 8px; font-size: 12px;">
+                © 2025 Evil0ctal · MIT License
+            </p>
+        </footer>
+    </div>
+
+    <!-- WASM 模块配置 -->
+    <script>
+        // 优先使用本地文件（速度更快）
+        window.VTS_WASM_URL = 'wechat_files/wasm_video_decode.wasm';
+        window.MAX_HEAP_SIZE = 33554432;
+
+        // 备选微信 CDN 路径（如果本地加载失败）
+        window.VTS_WASM_CDN_URL = "https://aladin.wxqcloud.qq.com/aladin/ffmepeg/video-decode/1.2.46/wasm_video_decode.wasm";
+        window.WASM_USING_CDN = false;
+        window.WASM_LOAD_FAILED = false;
+    </script>
+    <!-- 优先使用本地文件加载 JS -->
+    <script
+        src="wechat_files/wasm_video_decode.js"
+        onerror="handleWasmScriptError()"
+    ></script>
+    <script>
+        // 处理 WASM JS 加载失败 - 切换到微信 CDN
+        function handleWasmScriptError() {
+            console.warn('本地 WASM JS 加载失败，切换到微信 CDN...');
+            window.WASM_USING_CDN = true;
+
+            // 尝试加载微信 CDN
+            const cdnScript = document.createElement('script');
+            cdnScript.src = 'https://aladin.wxqcloud.qq.com/aladin/ffmepeg/video-decode/1.2.46/wasm_video_decode.js';
+            cdnScript.onerror = function() {
+                console.error('微信 CDN WASM JS 也加载失败');
+                window.WASM_LOAD_FAILED = true;
+                showWasmLoadError();
+            };
+            document.head.appendChild(cdnScript);
+
+            // 更新 WASM URL 为 CDN 路径
+            window.VTS_WASM_URL = window.VTS_WASM_CDN_URL;
+        }
+
+        // 显示 WASM 加载错误
+        function showWasmLoadError() {
+            const output = document.getElementById('output');
+            if (output) {
+                output.innerHTML = `
+<span class="error">❌ WASM 模块加载失败</span>
+
+<span class="warning">可能的原因：</span>
+1. 本地 WASM 文件缺失（wechat_files/ 目录）
+2. 微信 CDN 网络访问受限
+3. 浏览器阻止了脚本加载（检查控制台）
+
+<span class="info">解决方案：</span>
+
+<span class="success">方案 1：下载本地文件（推荐 - 速度最快）</span>
+从项目仓库下载 wechat_files/ 目录到与 index.html 同级：
+• wasm_video_decode.js
+• wasm_video_decode.wasm
+GitHub: https://github.com/Evil0ctal/WeChat-Channels-Video-File-Decryption
+
+<span class="success">方案 2：使用微信 CDN</span>
+如果本地文件缺失，会自动尝试使用微信 CDN (v1.2.46)：
+• JS: https://aladin.wxqcloud.qq.com/aladin/ffmepeg/video-decode/1.2.46/wasm_video_decode.js
+• WASM: https://aladin.wxqcloud.qq.com/aladin/ffmepeg/video-decode/1.2.46/wasm_video_decode.wasm
+
+<span class="info">💡 提示：</span>
+本地文件加载速度更快，建议优先使用本地部署。
+中国大陆用户如果本地文件不可用，微信 CDN 是可靠的备选方案。
+                `.trim();
+            }
+        }
+    </script>
+
+    <!-- 主程序 -->
+    <script>
+        // 全局变量
+        let keystreamData = null;
+        let encryptedVideoFile = null;
+        let decryptedVideoData = null;
+        const KEYSTREAM_SIZE = 131072; // 128 KB
+
+        /**
+         * 切换标签页
+         */
+        function switchTab(tabName) {
+            // 更新标签按钮状态
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // 更新内容显示
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        /**
+         * 日志输出函数
+         */
+        function log(message) {
+            const output = document.getElementById('output');
+            output.innerHTML += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        /**
+         * 更新进度
+         */
+        function updateProgress(percent, text) {
+            const container = document.getElementById('progressContainer');
+            const fill = document.getElementById('progressFill');
+            const textEl = document.getElementById('progressText');
+
+            container.style.display = 'block';
+            fill.style.width = percent + '%';
+            fill.textContent = Math.round(percent) + '%';
+            textEl.textContent = text;
+        }
+
+        /**
+         * 隐藏进度
+         */
+        function hideProgress() {
+            document.getElementById('progressContainer').style.display = 'none';
+        }
+
+        /**
+         * 清空日志
+         */
+        function clearOutput() {
+            document.getElementById('output').innerHTML = '';
+            keystreamData = null;
+            document.getElementById('exportBtn').disabled = true;
+        }
+
+        /**
+         * 清空所有
+         */
+        function clearAll() {
+            clearOutput();
+            encryptedVideoFile = null;
+            decryptedVideoData = null;
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('decryptBtn').disabled = true;
+            document.getElementById('downloadBtn').disabled = true;
+            hideProgress();
+            log('<span class="info">✅ 已重置所有状态</span>\n');
+        }
+
+        /**
+         * 文件拖放处理
+         */
+        const dropArea = document.getElementById('dropArea');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.add('drag-over');
+            }, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => {
+                dropArea.classList.remove('drag-over');
+            }, false);
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }, false);
+
+        /**
+         * 文件选择处理
+         */
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                handleFile(file);
+            }
+        }
+
+        /**
+         * 处理文件
+         */
+        function handleFile(file) {
+            encryptedVideoFile = file;
+
+            // 显示文件信息
+            const fileInfo = document.getElementById('fileInfo');
+            fileInfo.style.display = 'block';
+            fileInfo.innerHTML = `
+                <strong>✅ 已选择文件:</strong><br>
+                文件名: ${file.name}<br>
+                大小: ${(file.size / 1024 / 1024).toFixed(2)} MB<br>
+                类型: ${file.type || '未知'}
+            `;
+
+            // 启用解密按钮
+            const decodeKey = document.getElementById('decodeKeyFull').value.trim();
+            if (decodeKey) {
+                document.getElementById('decryptBtn').disabled = false;
+            }
+
+            log(`<span class="success">✅ 已加载文件: ${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>\n`);
+        }
+
+        /**
+         * 导出密钥流到文件
+         */
+        function exportKeystream() {
+            if (!keystreamData) {
+                alert('⚠️ 请先生成密钥流！');
+                return;
+            }
+
+            // 转换为十六进制字符串
+            const hexString = Array.from(keystreamData)
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join(' ');
+
+            // 创建下载
+            const blob = new Blob([hexString], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'keystream_131072_bytes.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            log('\n<span class="success">✅ 密钥流已导出</span>');
+            log(`   文件名: keystream_131072_bytes.txt`);
+            log(`   大小: ${keystreamData.length.toLocaleString()} bytes`);
+            log(`   格式: 十六进制，空格分隔`);
+        }
+
+        /**
+         * 下载解密后的视频
+         */
+        function downloadDecrypted() {
+            if (!decryptedVideoData) {
+                alert('⚠️ 请先解密视频！');
+                return;
+            }
+
+            const blob = new Blob([decryptedVideoData], { type: 'video/mp4' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'decrypted_video.mp4';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            log('\n<span class="success">✅ 解密视频已下载</span>');
+            log(`   文件名: decrypted_video.mp4`);
+            log(`   大小: ${(decryptedVideoData.length / 1024 / 1024).toFixed(2)} MB`);
+        }
+
+        /**
+         * WASM 回调函数 - 接收生成的密钥流
+         */
+        window.wasm_isaac_generate = function(ptr, size) {
+            log('<span class="info">📝 接收 WASM 生成的密钥流</span>');
+            log(`   内存指针: ${ptr}`);
+            log(`   数据大小: ${size.toLocaleString()} bytes`);
+
+            // 创建数组保存密钥流
+            keystreamData = new Uint8Array(size);
+
+            // 从 WASM 内存读取
+            const wasmArray = new Uint8Array(Module.HEAPU8.buffer, ptr, size);
+
+            // 关键步骤：反转数组（微信加密算法要求）
+            keystreamData.set(wasmArray.slice().reverse());
+
+            log('<span class="info">🔄 已应用 reverse() 操作</span>');
+            log(`   前 16 字节: ${Array.from(keystreamData.slice(0, 16))
+                .map(b => b.toString(16).padStart(2, '0')).join(' ')}`);
+        };
+
+        /**
+         * 生成密钥流（仅密钥流模式）
+         */
+        async function generateKeystream() {
+            clearOutput();
+
+            const decodeKey = document.getElementById('decodeKey').value.trim();
+
+            if (!decodeKey) {
+                alert('⚠️ 请输入 decode_key！');
+                return;
+            }
+
+            log('═══════════════════════════════════════════════════════════');
+            log(`🔑 Decode Key: ${decodeKey}`);
+            log('═══════════════════════════════════════════════════════════\n');
+
+            try {
+                await generateKeystreamInternal(decodeKey);
+
+                if (keystreamData) {
+                    log('═══════════════════════════════════════════════════════════');
+                    log('<span class="success">🎉 密钥流生成成功！</span>');
+                    log('═══════════════════════════════════════════════════════════\n');
+
+                    log('<span class="info">📊 密钥流信息：</span>');
+                    log(`   大小: ${keystreamData.length.toLocaleString()} bytes (${(keystreamData.length / 1024).toFixed(2)} KB)`);
+                    log(`   前 64 字节:`);
+
+                    for (let i = 0; i < 64; i += 16) {
+                        const chunk = Array.from(keystreamData.slice(i, i + 16))
+                            .map(b => b.toString(16).padStart(2, '0')).join(' ');
+                        log(`     [${i.toString().padStart(5, '0')}]: ${chunk}`);
+                    }
+
+                    log('\n<span class="success">✅ 请点击"导出密钥流"按钮保存文件</span>');
+
+                    // 启用导出按钮
+                    document.getElementById('exportBtn').disabled = false;
+                }
+            } catch (error) {
+                log(`\n<span class="error">❌ 错误: ${error.message}</span>`);
+                console.error('详细错误:', error);
+            }
+        }
+
+        /**
+         * 内部密钥流生成函数
+         */
+        async function generateKeystreamInternal(decodeKey) {
+            // 检查 WASM 模块
+            if (typeof Module === 'undefined' || !Module.WxIsaac64) {
+                log('<span class="warning">⏳ WASM 模块未就绪，等待加载...</span>');
+
+                // 等待最多 10 秒
+                let loaded = false;
+                for (let i = 0; i < 100; i++) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    if (typeof Module !== 'undefined' && Module.WxIsaac64) {
+                        loaded = true;
+                        log('<span class="success">✅ WASM 模块已加载</span>\n');
+                        break;
+                    }
+                }
+
+                if (!loaded) {
+                    throw new Error('WASM 模块加载超时');
+                }
+            }
+
+            // 第一步：创建 Isaac64 实例
+            log('<span class="info">步骤 1/3: 创建 Isaac64 实例</span>');
+            const decryptor = new Module.WxIsaac64(decodeKey);
+            log('<span class="success">✅ 实例创建成功</span>\n');
+
+            // 第二步：生成密钥流
+            log(`<span class="info">步骤 2/3: 生成 ${KEYSTREAM_SIZE.toLocaleString()} bytes 密钥流</span>`);
+            await decryptor.generate(KEYSTREAM_SIZE);
+            log('<span class="success">✅ 密钥流生成完成</span>\n');
+
+            // 第三步：清理资源
+            log('<span class="info">步骤 3/3: 清理资源</span>');
+            await decryptor.delete();
+            log('<span class="success">✅ 完成</span>\n');
+
+            // 验证结果
+            if (!keystreamData) {
+                throw new Error('密钥流数据为空');
+            }
+        }
+
+        /**
+         * 格式化字节数组为十六进制显示（带ASCII）
+         */
+        function formatHexDump(data, offset, length, bytesPerLine = 16) {
+            let result = '';
+            for (let i = 0; i < length; i += bytesPerLine) {
+                const lineOffset = offset + i;
+                const lineData = data.slice(i, Math.min(i + bytesPerLine, length));
+
+                // 偏移量
+                const offsetStr = lineOffset.toString(16).padStart(8, '0');
+
+                // 十六进制数据
+                const hexStr = Array.from(lineData)
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join(' ')
+                    .padEnd(bytesPerLine * 3 - 1, ' ');
+
+                // ASCII 表示
+                const asciiStr = Array.from(lineData)
+                    .map(b => (b >= 32 && b <= 126) ? String.fromCharCode(b) : '.')
+                    .join('');
+
+                result += `${offsetStr}  ${hexStr}  |${asciiStr}|\n`;
+            }
+            return result;
+        }
+
+        /**
+         * 分析 MP4 文件头
+         */
+        function analyzeMp4Header(data) {
+            const analysis = [];
+
+            // Box size (前4字节)
+            const boxSize = (data[0] << 24) | (data[1] << 16) | (data[2] << 8) | data[3];
+            analysis.push(`   📦 Box Size: ${boxSize} bytes (0x${boxSize.toString(16)})`);
+
+            // Box type (4-7字节)
+            const boxType = String.fromCharCode(data[4], data[5], data[6], data[7]);
+            analysis.push(`   🏷️  Box Type: '${boxType}' (${Array.from(data.slice(4, 8)).map(b => '0x' + b.toString(16).padStart(2, '0')).join(' ')})`);
+
+            // Major brand (8-11字节)
+            const majorBrand = String.fromCharCode(data[8], data[9], data[10], data[11]);
+            analysis.push(`   🎬 Major Brand: '${majorBrand}'`);
+
+            // Minor version (12-15字节)
+            const minorVersion = (data[12] << 24) | (data[13] << 16) | (data[14] << 8) | data[15];
+            analysis.push(`   📌 Minor Version: ${minorVersion} (0x${minorVersion.toString(16).padStart(8, '0')})`);
+
+            // Compatible brands
+            const compatBrands = [];
+            for (let i = 16; i < 32 && i < data.length; i += 4) {
+                const brand = String.fromCharCode(data[i], data[i+1], data[i+2], data[i+3]);
+                if (brand.trim()) compatBrands.push(brand);
+            }
+            if (compatBrands.length > 0) {
+                analysis.push(`   🔗 Compatible Brands: ${compatBrands.join(', ')}`);
+            }
+
+            return analysis.join('\n');
+        }
+
+        /**
+         * 完整解密视频
+         */
+        async function decryptVideo() {
+            if (!encryptedVideoFile) {
+                alert('⚠️ 请先选择加密视频文件！');
+                return;
+            }
+
+            const decodeKey = document.getElementById('decodeKeyFull').value.trim();
+            if (!decodeKey) {
+                alert('⚠️ 请输入 decode_key！');
+                return;
+            }
+
+            clearOutput();
+            document.getElementById('decryptBtn').disabled = true;
+
+            try {
+                log('╔═══════════════════════════════════════════════════════════╗');
+                log('║         微信视频号解密工具 - 完整解密流程                ║');
+                log('╚═══════════════════════════════════════════════════════════╝\n');
+
+                log('<span class="info">📋 解密配置信息:</span>');
+                log(`   🔑 Decode Key: ${decodeKey}`);
+                log(`   📹 输入文件: ${encryptedVideoFile.name}`);
+                log(`   📊 文件大小: ${(encryptedVideoFile.size / 1024 / 1024).toFixed(2)} MB (${encryptedVideoFile.size.toLocaleString()} bytes)`);
+                log(`   🔒 加密范围: 前 131,072 bytes (128 KB)`);
+                log(`   🔐 解密算法: Isaac64 PRNG + XOR\n`);
+
+                // ========== 步骤 1: 生成密钥流 ==========
+                log('┌─────────────────────────────────────────────────────────┐');
+                log('│ 步骤 1/4: 生成 Isaac64 密钥流                           │');
+                log('└─────────────────────────────────────────────────────────┘');
+                updateProgress(10, '正在生成密钥流...');
+
+                await generateKeystreamInternal(decodeKey);
+
+                log('\n<span class="success">✅ 密钥流生成成功</span>');
+                log(`   📊 密钥流大小: ${keystreamData.length.toLocaleString()} bytes`);
+                log(`   🔄 已应用 reverse() 操作`);
+                log(`   📝 密钥流前 32 字节:\n`);
+                log(formatHexDump(keystreamData, 0, 32));
+
+                updateProgress(30, '密钥流生成完成');
+
+                // ========== 步骤 2: 读取并分析加密文件 ==========
+                log('┌─────────────────────────────────────────────────────────┐');
+                log('│ 步骤 2/4: 读取并分析加密视频文件                        │');
+                log('└─────────────────────────────────────────────────────────┘');
+                updateProgress(40, '正在读取加密文件...');
+
+                const arrayBuffer = await encryptedVideoFile.arrayBuffer();
+                const encrypted = new Uint8Array(arrayBuffer);
+
+                log(`\n<span class="info">📂 加密文件信息:</span>`);
+                log(`   文件名: ${encryptedVideoFile.name}`);
+                log(`   文件大小: ${encrypted.length.toLocaleString()} bytes`);
+                log(`   文件类型: ${encryptedVideoFile.type || '未知'}\n`);
+
+                log('<span class="warning">🔒 加密文件头（前 64 字节）:</span>\n');
+                log(formatHexDump(encrypted, 0, 64));
+
+                log('<span class="info">💡 说明: 可以看到文件头已被加密，无法识别为 MP4 格式</span>\n');
+
+                updateProgress(50, '文件读取完成');
+
+                // ========== 步骤 3: XOR 解密 ==========
+                log('┌─────────────────────────────────────────────────────────┐');
+                log('│ 步骤 3/4: 执行 XOR 解密运算                              │');
+                log('└─────────────────────────────────────────────────────────┘');
+                updateProgress(55, '正在执行 XOR 解密...');
+
+                const decryptLen = Math.min(KEYSTREAM_SIZE, encrypted.length);
+                log(`\n<span class="info">🔐 解密参数:</span>`);
+                log(`   加密范围: 前 ${decryptLen.toLocaleString()} bytes (${(decryptLen / 1024).toFixed(2)} KB)`);
+                log(`   未加密范围: ${(encrypted.length - decryptLen).toLocaleString()} bytes (${((encrypted.length - decryptLen) / 1024 / 1024).toFixed(2)} MB)`);
+                log(`   解密算法: decrypted[i] = encrypted[i] XOR keystream[i]\n`);
+
+                // 创建解密后的数组
+                decryptedVideoData = new Uint8Array(encrypted.length);
+
+                // 显示 XOR 运算示例
+                log('<span class="info">📐 XOR 运算示例（前 8 字节）:</span>');
+                for (let i = 0; i < 8; i++) {
+                    const enc = encrypted[i];
+                    const key = keystreamData[i];
+                    const dec = enc ^ key;
+                    log(`   [${i}] 0x${enc.toString(16).padStart(2, '0')} XOR 0x${key.toString(16).padStart(2, '0')} = 0x${dec.toString(16).padStart(2, '0')} ('${String.fromCharCode(dec)}')`);
+                }
+                log('');
+
+                // XOR 前 128KB
+                const startTime = performance.now();
+                for (let i = 0; i < decryptLen; i++) {
+                    decryptedVideoData[i] = encrypted[i] ^ keystreamData[i];
+
+                    // 更新进度
+                    if (i % 10000 === 0) {
+                        const percent = 55 + (i / decryptLen) * 30;
+                        updateProgress(percent, `XOR 解密: ${((i / decryptLen) * 100).toFixed(1)}%`);
+                    }
+                }
+                const endTime = performance.now();
+
+                // 复制剩余未加密部分
+                decryptedVideoData.set(encrypted.slice(decryptLen), decryptLen);
+
+                log(`<span class="success">✅ XOR 解密完成</span>`);
+                log(`   ⏱️  耗时: ${(endTime - startTime).toFixed(2)} ms`);
+                log(`   📊 处理速度: ${(decryptLen / (endTime - startTime) * 1000 / 1024 / 1024).toFixed(2)} MB/s\n`);
+
+                updateProgress(85, '解密运算完成');
+
+                // ========== 步骤 4: 验证解密结果 ==========
+                log('┌─────────────────────────────────────────────────────────┐');
+                log('│ 步骤 4/4: 验证解密结果                                   │');
+                log('└─────────────────────────────────────────────────────────┘');
+                updateProgress(90, '验证解密结果...');
+
+                log('\n<span class="success">🔓 解密后文件头（前 64 字节）:</span>\n');
+                log(formatHexDump(decryptedVideoData, 0, 64));
+
+                // 分析 MP4 文件头
+                log('<span class="info">📋 MP4 文件头分析:</span>');
+                log(analyzeMp4Header(decryptedVideoData));
+                log('');
+
+                // 检查 MP4 'ftyp' 签名 (偏移 4-7)
+                const ftypBytes = decryptedVideoData.slice(4, 8);
+                const ftypString = String.fromCharCode(...ftypBytes);
+
+                log('<span class="info">🔍 MP4 格式验证:</span>');
+                if (ftypString === 'ftyp') {
+                    log(`   <span class="success">✅ 'ftyp' 签名验证通过 @ 偏移 4</span>`);
+                    log(`   <span class="success">✅ 文件格式: MP4 (ISO Base Media)</span>`);
+                    log(`   <span class="success">✅ 解密成功！文件可以正常播放</span>`);
+                } else {
+                    log(`   <span class="error">❌ 未找到 'ftyp' 签名</span>`);
+                    log(`   <span class="warning">检测到: '${ftypString}' (hex: ${Array.from(ftypBytes).map(b => b.toString(16).padStart(2, '0')).join(' ')})</span>`);
+                    log(`   <span class="warning">⚠️  解密可能失败，请检查 decode_key 是否正确</span>`);
+                }
+
+                // 对比加密前后
+                log('\n<span class="info">📊 加密前后对比:</span>');
+                log(`   加密文件前16字节: ${Array.from(encrypted.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' ')}`);
+                log(`   解密文件前16字节: ${Array.from(decryptedVideoData.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' ')}`);
+                log(`   密钥流前16字节:   ${Array.from(keystreamData.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' ')}\n`);
+
+                updateProgress(100, '解密完成！');
+
+                log('╔═══════════════════════════════════════════════════════════╗');
+                log('║                    🎉 解密完成！                          ║');
+                log('╚═══════════════════════════════════════════════════════════╝\n');
+
+                log('<span class="success">📊 解密统计:</span>');
+                log(`   📁 原始文件: ${encrypted.length.toLocaleString()} bytes`);
+                log(`   🔓 解密范围: ${decryptLen.toLocaleString()} bytes (${(decryptLen / encrypted.length * 100).toFixed(2)}%)`);
+                log(`   ⏱️  总耗时: ${(endTime - startTime).toFixed(2)} ms`);
+                log(`   💾 输出文件: decrypted_video.mp4\n`);
+
+                log('<span class="success">✅ 请点击"下载解密视频"按钮保存文件</span>');
+                log('<span class="info">💡 解密后的视频保存在浏览器内存中，未上传到任何服务器</span>\n');
+
+                // 启用下载按钮
+                document.getElementById('downloadBtn').disabled = false;
+
+                // 2秒后隐藏进度条
+                setTimeout(hideProgress, 2000);
+
+            } catch (error) {
+                log(`\n<span class="error">╔═══════════════════════════════════════════════════════════╗</span>`);
+                log(`<span class="error">║                    ❌ 解密失败                            ║</span>`);
+                log(`<span class="error">╚═══════════════════════════════════════════════════════════╝</span>\n`);
+                log(`<span class="error">错误信息: ${error.message}</span>`);
+                log(`<span class="error">错误堆栈: ${error.stack}</span>\n`);
+                log(`<span class="warning">💡 可能的原因:</span>`);
+                log(`   1. decode_key 不正确`);
+                log(`   2. 文件不是微信视频号加密文件`);
+                log(`   3. 文件已损坏`);
+                log(`   4. WASM 模块未正确加载\n`);
+                console.error('详细错误:', error);
+                hideProgress();
+                alert('解密失败: ' + error.message);
+            } finally {
+                document.getElementById('decryptBtn').disabled = false;
+            }
+        }
+
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            log('<span class="info">📦 正在加载 WASM 模块...</span>');
+
+            // 显示正在使用的资源地址
+            if (window.WASM_USING_CDN) {
+                log('<span class="warning">⚠️  本地文件加载失败，已切换到微信 CDN</span>');
+                log(`<span class="info">   JS: https://aladin.wxqcloud.qq.com/aladin/ffmepeg/video-decode/1.2.46/wasm_video_decode.js</span>`);
+                log(`<span class="info">   WASM: ${window.VTS_WASM_URL}</span>`);
+            } else {
+                log('<span class="info">   使用本地文件（速度更快）</span>');
+                log(`<span class="info">   JS: wechat_files/wasm_video_decode.js</span>`);
+                log(`<span class="info">   WASM: ${window.VTS_WASM_URL}</span>`);
+            }
+            log('');
+
+            // 检查 WASM 加载状态
+            let checkCount = 0;
+            const checkInterval = setInterval(function() {
+                checkCount++;
+
+                if (typeof Module !== 'undefined' && Module.WxIsaac64) {
+                    clearInterval(checkInterval);
+                    log('<span class="success">✅ WASM 模块加载成功</span>');
+                    log('<span class="info">   已就绪：Isaac64 PRNG 生成器</span>');
+                    log('<span class="info">👉 选择"一键解密"标签页开始使用</span>\n');
+                } else if (checkCount % 10 === 0) {
+                    // 每秒显示一次加载状态
+                    log(`<span class="info">⏳ 加载中... (${checkCount / 10}s)</span>`);
+                }
+            }, 100);
+
+            // 30 秒超时
+            setTimeout(function() {
+                clearInterval(checkInterval);
+                if (typeof Module === 'undefined' || !Module.WxIsaac64) {
+                    log('\n<span class="error">═══════════════════════════════════════════</span>');
+                    log('<span class="error">❌ WASM 模块加载超时（30秒）</span>');
+                    log('<span class="error">═══════════════════════════════════════════</span>\n');
+
+                    log('<span class="warning">⚠️  可能的原因：</span>');
+                    log('   1. 网络连接较慢或不稳定');
+                    log('   2. 微信 CDN 访问受限（防火墙/网络策略）');
+                    log('   3. 浏览器阻止了 WASM 加载');
+                    log('   4. 本地 WASM 文件缺失或路径错误\n');
+
+                    log('<span class="info">💡 解决方案：</span>');
+                    log('   1. <strong>刷新页面重试</strong>');
+                    log('   2. 检查浏览器控制台（F12）查看详细错误');
+                    log('   3. 确认可以访问微信 CDN:');
+                    log('      https://aladin.wxqcloud.qq.com/aladin/ffmepeg/video-decode/1.2.46/');
+                    log('   4. 或下载 wechat_files/ 目录到本地使用\n');
+
+                    log('<span class="info">🌐 对于中国大陆用户：</span>');
+                    log('   微信 CDN 通常访问稳定，如加载失败可能是暂时的网络问题。');
+                    log('   建议刷新页面或稍后重试。\n');
+                }
+            }, 30000);
+
+            // 监听 decode key 输入
+            document.getElementById('decodeKeyFull').addEventListener('input', function() {
+                const decodeKey = this.value.trim();
+                if (decodeKey && encryptedVideoFile) {
+                    document.getElementById('decryptBtn').disabled = false;
+                } else {
+                    document.getElementById('decryptBtn').disabled = true;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
